@@ -1,0 +1,27 @@
+<!-- Build file for game 2048 - Server program -->
+<project name="Game 2048" default="compile" basedir=".">
+    
+    <!-- set variable -->
+    <property name="SRC" location="src"/>
+    <property name="BIN" location="bin"/>
+
+    <!-- Target initialize -->
+    <target name="init" depends="clean">
+        <!-- Create the time stamp -->
+        <tstamp/>
+        <!-- Create the binary directory  -->
+        <mkdir dir="${BIN}"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <!-- Compile source -->
+        <javac includeantruntime="false" srcdir="${SRC}" destdir="${BIN}"/>
+    </target>
+
+    <target name="clean">
+        <!-- Clean build file -->
+        <delete dir="${BIN}"/>
+    </target>
+
+</project>
+<!-- End file -->
