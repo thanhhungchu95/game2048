@@ -2,24 +2,25 @@ package game.client;
 
 import java.net.*;
 import java.io.*;
+import javax.swing.JOptionPane;
 
 public final class ClientCommon {
     private ClientCommon() {}
 
-    public static void openSocket(Socket socket, String IPAddress, int PortNumber) {
+    public static Socket openSocket(String IPAddress, int PortNumber) {
+        Socket socket = null;
         try {
-            ClientCommon.closeSocket(socket);
             socket = new Socket(IPAddress, PortNumber);
         } catch(IOException io) {
-            io.printStackTrace();
+            JOptionPane.showConfirmDialog(null, "Server not running :((", "Error", JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
         }
+        return socket;
     }
 
     public static void closeSocket(Socket socket) {
         try {
-            if (socket.isConnected()) {
-                socket.close();
-            }
+            socket.close();
         } catch (IOException io) {
             io.printStackTrace();
         }

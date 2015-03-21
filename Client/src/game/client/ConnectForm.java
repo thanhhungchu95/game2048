@@ -1,5 +1,7 @@
 package game.client;
 
+import game.client.ClientGUI;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -12,7 +14,7 @@ public class ConnectForm extends JFrame {
 
     private void initialize() {
         this.setTitle("Connect Form");
-        this.setBounds(450, 225, 300, 150);
+        this.setBounds(550, 225, 300, 150);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
@@ -36,7 +38,7 @@ public class ConnectForm extends JFrame {
         txtIPAddress.setBounds(83, 5, 210, 30);
         pnlForm.add(txtIPAddress);
 
-        JTextField txtPortNumber = new JTextField("2209");
+        final JTextField txtPortNumber = new JTextField("2209");
         txtPortNumber.setBounds(83, 45, 210, 30);
         txtPortNumber.setEditable(false);
         pnlForm.add(txtPortNumber);
@@ -45,7 +47,11 @@ public class ConnectForm extends JFrame {
         btnConnect.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                ClientGUI gui = new ClientGUI();
+                gui.setIPAddress(txtIPAddress.getText());
+                gui.setPortNumber(Integer.parseInt(txtPortNumber.getText()));
+                gui.startGame();
+                dispose();
             }
         });
         btnConnect.setBounds(24, 85, 79, 35);
