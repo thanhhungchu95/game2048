@@ -44,14 +44,14 @@ public class ServerGUI extends JFrame {
         setVisible(true);
         while (true) {
             System.out.println("Waiting for connection ...");
-			String numberString = ServerCommon.genCellNumber();
+            String numberString = ServerCommon.genCellNumber();
             ServerCommon.sendMessage(serverSocket, numberString);
             System.out.println("Connect successful!");
             System.out.println("Playing ...");
             while(true) {
                 String request = ServerCommon.receiveMessage(serverSocket);
                 if (request.equals("EXIT")) break;
-				numberString = ServerCommon.translate(request, numberString);
+                numberString = ServerCommon.translate(request, numberString);
                 ServerCommon.sendMessage(serverSocket, numberString);
             }
             System.out.println("Close connection complete!");
