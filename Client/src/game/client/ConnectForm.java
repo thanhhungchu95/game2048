@@ -7,7 +7,9 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class ConnectForm extends JFrame {
-    
+    private JTextField txtIPAddress;
+    private JTextField txtPortNumber;
+
     public ConnectForm() {
         initialize();
     }
@@ -34,11 +36,22 @@ public class ConnectForm extends JFrame {
         lblPortNumber.setBounds(3, 43, 74, 34);
         pnlForm.add(lblPortNumber);
 
-        final JTextField txtIPAddress = new JTextField();
+        txtIPAddress = new JTextField();
+        txtIPAddress.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    connect();
+                }
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    System.exit(0);
+                }
+            }
+        });
         txtIPAddress.setBounds(83, 5, 210, 30);
         pnlForm.add(txtIPAddress);
 
-        final JTextField txtPortNumber = new JTextField("2209");
+        txtPortNumber = new JTextField("2209");
         txtPortNumber.setBounds(83, 45, 210, 30);
         txtPortNumber.setEditable(false);
         pnlForm.add(txtPortNumber);
@@ -47,11 +60,7 @@ public class ConnectForm extends JFrame {
         btnConnect.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ClientGUI gui = new ClientGUI();
-                gui.setIPAddress(txtIPAddress.getText());
-                gui.setPortNumber(Integer.parseInt(txtPortNumber.getText()));
-                gui.startGame();
-                dispose();
+                connect();
             }
         });
         btnConnect.setBounds(24, 85, 79, 35);
@@ -80,5 +89,13 @@ public class ConnectForm extends JFrame {
 
     public void runForm() {
         this.setVisible(true);
+    }
+
+    private void connect() {
+       ClientGUI gui = new ClientGUI();
+       gui.setIPAddress(txtIPAddress.getText());
+       gui.setPortNumber(Integer.parseInt(txtPortNumber.getText()));
+       gui.startGame();
+       dispose();
     }
 }

@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 public final class ClientCommon {
     private ClientCommon() {}
 
-    public static Socket openSocket(String IPAddress, int PortNumber) {
+    private static Socket openSocket(String IPAddress, int PortNumber) {
         Socket socket = null;
         try {
             socket = new Socket(IPAddress, PortNumber);
@@ -18,30 +18,26 @@ public final class ClientCommon {
         return socket;
     }
 
-    public static void closeSocket(Socket socket) {
+    public static void sendMessage(String IPAddress, int PortNumber, String message) {
+        Socket socket = ClientCommon.openSocket(IPAddress, PortNumber);
         try {
+            PrintStream sending = new PrintStream(socket.getOutputStream(), true);
+            sending.print(message);
+            sending.close();
             socket.close();
         } catch (IOException io) {
             io.printStackTrace();
         }
     }
 
-    public static void sendMessage(Socket socket, String message) {
-        try {
-            PrintStream sending = new PrintStream(socket.getOutputStream(), true);
-            sending.print(message);
-            sending.close();
-        } catch (IOException io) {
-            io.printStackTrace();
-        }
-    }
-
-    public static String receiveMessage(Socket socket) {
+    public static String receiveMessage(String IPAddress, int PortNumber) {
         String message = null;
+        Socket socket = ClientCommon.openSocket(IPAddress, PortNumber);
         try {
             BufferedReader receiving = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             message = receiving.readLine();
             receiving.close();
+            socket.close();
         } catch (IOException io) {
             io.printStackTrace();
         }

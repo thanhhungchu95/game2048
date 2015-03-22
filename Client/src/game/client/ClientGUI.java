@@ -20,8 +20,6 @@ public class ClientGUI extends JFrame {
     
     private JLabel lblNumber[] = new JLabel[16];
 
-    private Socket client;
-
     public ClientGUI() {
         initialize();
 
@@ -48,11 +46,9 @@ public class ClientGUI extends JFrame {
 
     private void initialize() {
         setTitle("Game 2048");
-        setBounds(500, 100, 405, 425);
+        setBounds(500, 100, 400, 425);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        client = null;
 
         JPanel pnlGame = new JPanel();
         this.setContentPane(pnlGame);
@@ -74,7 +70,7 @@ public class ClientGUI extends JFrame {
         numberFont = new Font("SanSerif", Font.CENTER_BASELINE, 25);
 
         for (int i = 0; i < 16; i++) {
-            lblNumber[i] = new JLabel("0");
+            lblNumber[i] = new JLabel();
             lblNumber[i].setBounds((i % 4) * 100, (i / 4) * 100, 100, 100);
             lblNumber[i].setHorizontalAlignment(JLabel.CENTER);
             lblNumber[i].setForeground(Color.WHITE);
@@ -108,29 +104,37 @@ public class ClientGUI extends JFrame {
 
  
     public void startGame() {
-        client = ClientCommon.openSocket(IPAddress, PortNumber);
+        setNumber(ClientCommon.receiveMessage(IPAddress, PortNumber));
         setVisible(true);
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                ClientCommon.sendMessage(IPAddress, PortNumber, "EXIT");
+            }
+        });
 
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_UP: 
-                        System.out.println("Up");
+                        ClientCommon.sendMessage(IPAddress, PortNumber, "UP");
                         break;
                     case KeyEvent.VK_DOWN:
-                        System.out.println("Down");
+                        ClientCommon.sendMessage(IPAddress, PortNumber, "DOWN");
                         break;
                     case KeyEvent.VK_LEFT:
-                        System.out.println("Left");
+                        ClientCommon.sendMessage(IPAddress, PortNumber, "LEFT");
                         break;
                     case KeyEvent.VK_RIGHT:
-                        System.out.println("Right");
+                        ClientCommon.sendMessage(IPAddress, PortNumber, "RIGHT");
                         break;
                     default:
-                        System.out.println("None");
+                        ClientCommon.sendMessage(IPAddress, PortNumber, "NONE");
                         break;
                 }
+                setNumber(ClientCommon.receiveMessage(IPAddress, PortNumber));
             }
         });
     }
