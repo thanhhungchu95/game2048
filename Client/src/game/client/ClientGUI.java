@@ -96,12 +96,20 @@ public class ClientGUI extends JFrame {
 					lblNumber[count].setText("");
 					lblNumber[count].setBackground(cellColor[0]);
 				}
-				point = index + 1;
 				count ++;
+                if (count == 16) break;
+                point = index + 1;
 			}
 		}
+        if (stringNumber.charAt(point + 2) == '0') {
+            showLose();
+        }
     }
 
+    private void showLose() {
+        JOptionPane.showConfirmDialog(this, "GAME OVER", "LOSE!!!", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        System.exit(0);
+    }
  
     public void startGame() {
         setNumber(ClientCommon.receiveMessage(IPAddress, PortNumber));
@@ -134,7 +142,8 @@ public class ClientGUI extends JFrame {
                         ClientCommon.sendMessage(IPAddress, PortNumber, "NONE");
                         break;
                 }
-                setNumber(ClientCommon.receiveMessage(IPAddress, PortNumber));
+                String respond = ClientCommon.receiveMessage(IPAddress, PortNumber);
+                setNumber(respond);
             }
         });
     }

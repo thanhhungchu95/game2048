@@ -34,7 +34,7 @@ public final class ServerCommon {
 				else cellNumber += "0;";
 			}
 		}
-		return cellNumber;
+		return (cellNumber + "1");
 
     }
         
@@ -45,7 +45,14 @@ public final class ServerCommon {
         if (key.equals("LEFT")) ServerCommon.cellToLeft();
         if (key.equals("RIGHT")) ServerCommon.cellToRight();
         if (key.equals("NONE")) {}
-        return ServerCommon.cellToString();
+
+        String state;
+        if (ServerCommon.checkCellFull()) {
+            state = "0";
+        }
+        else state = "1";
+
+        return (ServerCommon.cellToString() + state);
     }
 
     private static void stringToCell(String string) {
@@ -233,6 +240,28 @@ public final class ServerCommon {
 		}
 		if (isChanged == true) ServerCommon.generateCell();
 	}
+        
+    private static boolean checkCellFull() {
+       for (int i = 0; i < 4; i++) {
+          for (int j = 0; j < 4; j++) {
+              if (cell[i][j] == 0) return false;
+          }
+       }
+
+       for (int i = 0; i < 3; i++) {
+           for (int j = 0; j < 3; j++) {
+               if (cell[i][j] == cell[i + 1][j]) return false;
+               if (cell[i][j] == cell[i][j + 1]) return false;
+           }
+       }
+
+       for (int i = 0; i < 3; i++) {
+           if (cell[3][i] == cell[3][i + 1]) return false;
+           if (cell[i][3] == cell[i + 1][3]) return false;
+       }
+       return true;
+
+    }
 
 	private static void generateCell() {
 		int row = ServerCommon.random() % 4;
