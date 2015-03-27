@@ -4,6 +4,12 @@ import java.net.*;
 import java.io.*;
 
 public final class ServerCommon {
+    // State of game:
+    // 0: Lose
+    // 1: Normal
+    // 2: Win
+
+
     private static int[][] cell = new int[4][4];
 
     private ServerCommon() {}
@@ -47,10 +53,15 @@ public final class ServerCommon {
         if (key.equals("NONE")) {}
 
         String state;
-        if (ServerCommon.checkCellFull()) {
-            state = "0";
+        if (ServerCommon.checkIsWinGame()) {
+            state = "2";
         }
-        else state = "1";
+        else {
+            if (ServerCommon.checkCellFull()) {
+                state = "0";
+            }
+            else state = "1";
+        }
 
         return (ServerCommon.cellToString() + state);
     }
@@ -261,6 +272,15 @@ public final class ServerCommon {
        }
        return true;
 
+    }
+
+    private static boolean checkIsWinGame() {
+        for (int row = 0; row < 4; row++) {
+            for (int column = 0; column < 4; column++) {
+                if (cell[row][column] == 2048) return true;
+            }
+        }
+        return false;
     }
 
 	private static void generateCell() {

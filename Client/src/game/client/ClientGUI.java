@@ -101,14 +101,36 @@ public class ClientGUI extends JFrame {
                 point = index + 1;
 			}
 		}
-        if (stringNumber.charAt(point + 2) == '0') {
-            showLose();
+        switch ((int)stringNumber.charAt(point + 2) - 48) {
+            case 0: {
+                showLose(); 
+                break;
+            }
+            case 1: {
+                break;
+            }
+            case 2: {
+                showWin();
+                break;
+            }
+            default: {
+                break;
+            }
         }
     }
 
-    private void showLose() {
-        JOptionPane.showConfirmDialog(this, "GAME OVER", "LOSE!!!", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE);
+    private void show(String msg) {
+        JOptionPane.showConfirmDialog(this, msg, "GAME OVER", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        ClientCommon.sendMessage(IPAddress, PortNumber, "EXIT");
         System.exit(0);
+    }
+
+    private void showLose() {
+        show("LOSE!!!");
+    }
+
+    private void showWin() {
+        show("WIN!!!");
     }
  
     public void startGame() {
