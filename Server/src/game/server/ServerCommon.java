@@ -11,6 +11,7 @@ public final class ServerCommon {
 
 
     private static int[][] cell = new int[4][4];
+    private static int score = 0;
 
     private ServerCommon() {}
 
@@ -40,7 +41,8 @@ public final class ServerCommon {
 				else cellNumber += "0;";
 			}
 		}
-		return (cellNumber + "1");
+        ServerCommon.score = 0;
+		return (cellNumber + "1;" + String.valueOf(ServerCommon.score));
 
     }
         
@@ -63,7 +65,7 @@ public final class ServerCommon {
             else state = "1";
         }
 
-        return (ServerCommon.cellToString() + state);
+        return (ServerCommon.cellToString() + state + ";" + String.valueOf(ServerCommon.score));
     }
 
     private static void stringToCell(String string) {
@@ -106,9 +108,11 @@ public final class ServerCommon {
 			}
 			if (cell[0][i] == cell[1][i] && cell[0][i] != 0) {
 				cell[0][i] *= 2;
+                ServerCommon.score += cell[0][i];
 				isChanged = true;
 				if (cell[2][i] == cell[3][i] && cell[2][i] != 0) {
 					cell[1][i] = cell[2][i] * 2;
+                    ServerCommon.score += cell[1][i];
 					cell[2][i] = cell[3][i] = 0;
 				}
 				else {
@@ -119,12 +123,14 @@ public final class ServerCommon {
 			}
 			if (cell[1][i] == cell[2][i] && cell[1][i] != 0) {
 				cell[1][i] *= 2;
+                ServerCommon.score += cell[1][i];
 				isChanged = true;
 				cell[2][i] = cell[3][i];
 				cell[3][i] = 0;
 			}
 			if (cell[2][i] == cell[3][i] && cell[2][i] != 0) {
 				cell[2][i] *= 2;
+                ServerCommon.score += cell[2][i];
 				isChanged = true;
 				cell[3][i] = 0;
 			}
@@ -147,8 +153,10 @@ public final class ServerCommon {
 			if (cell[3][i] == cell[2][i] && cell[3][i] != 0) {
 				isChanged = true;
 				cell[3][i] *= 2;
+                ServerCommon.score += cell[3][i];
 				if (cell[1][i] == cell[0][i] && cell[1][i] != 0) {
 					cell[2][i] = cell[1][i] * 2;
+                    ServerCommon.score += cell[2][i];
 					cell[1][i] = cell[0][i] = 0;
 				}
 				else {
@@ -159,12 +167,14 @@ public final class ServerCommon {
 			}
 			if (cell[2][i] == cell[1][i] && cell[2][i] != 0) {
 				cell[2][i] *= 2;
+                ServerCommon.score += cell[2][i];
 				isChanged = true;
 				cell[1][i] = cell[0][i];
 				cell[0][i] = 0;
 			}
 			if (cell[1][i] == cell[0][i] && cell[1][i] != 0) {
 				cell[1][i] *= 2;
+                ServerCommon.score += cell[1][i];
 				isChanged = true;
 				cell[0][i] = 0;
 			}
@@ -186,9 +196,11 @@ public final class ServerCommon {
 			}
 			if (cell[i][0] == cell[i][1] && cell[i][0] != 0) {
 				cell[i][0] *= 2;
+                ServerCommon.score += cell[i][0];
 				isChanged = true;
 				if (cell[i][2] == cell[i][3] && cell[i][2] != 0) {
 					cell[i][1] = cell[i][2] * 2;
+                    ServerCommon.score += cell[i][1];
 					cell[i][2] = cell[i][3] = 0;
 				}
 				else {
@@ -199,12 +211,14 @@ public final class ServerCommon {
 			}
 			if (cell[i][1] == cell[i][2] && cell[i][1] != 0) {
 				cell[i][1] *= 2;
+                ServerCommon.score += cell[i][1];
 				isChanged = true;
 				cell[i][2] = cell[i][3];
 				cell[i][3] = 0;
 			}
 			if (cell[i][2] == cell[i][3] && cell[i][2] != 0) {
 				cell[i][2] *= 2;
+                ServerCommon.score += cell[i][2];
 				isChanged = true;
 				cell[i][3] = 0;
 			}
@@ -226,6 +240,7 @@ public final class ServerCommon {
 			}
 			if (cell[i][3] == cell[i][2] && cell[i][3] != 0) {
 				cell[i][3] *= 2;
+                ServerCommon.score += cell[i][3];
 				isChanged = true;
 				if (cell[i][1] == cell[i][0] && cell[i][1] != 0) {
 					cell[i][2] = cell[i][1] * 2;
@@ -239,12 +254,14 @@ public final class ServerCommon {
 			}
 			if (cell[i][2] == cell[i][1] && cell[i][2] != 0) {
 				cell[i][2] *= 2;
+                ServerCommon.score += cell[i][2];
 				isChanged = true;
 				cell[i][1] = cell[i][0];
 				cell[i][0] = 0;
 			}
 			if (cell[i][1] == cell[i][0] && cell[i][1] != 0) {
 				cell[i][1] *= 2;
+                ServerCommon.score += cell[i][1];
 				isChanged = true;
 				cell[i][0] = 0;
 			}

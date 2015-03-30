@@ -101,16 +101,17 @@ public class ClientGUI extends JFrame {
                 point = index + 1;
 			}
 		}
+        String score = stringNumber.substring(point + 4, stringNumber.length());
         switch ((int)stringNumber.charAt(point + 2) - 48) {
             case 0: {
-                showLose(); 
+                showLose(score); 
                 break;
             }
             case 1: {
                 break;
             }
             case 2: {
-                showWin();
+                showWin(score);
                 break;
             }
             default: {
@@ -119,18 +120,18 @@ public class ClientGUI extends JFrame {
         }
     }
 
-    private void show(String msg) {
-        JOptionPane.showConfirmDialog(this, msg, "GAME OVER", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE);
+    private void show(String msg, String score) {
+        JOptionPane.showConfirmDialog(this, msg + " Your score is " + score, "GAME OVER", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE);
         ClientCommon.sendMessage(IPAddress, PortNumber, "EXIT");
         System.exit(0);
     }
 
-    private void showLose() {
-        show("LOSE!!!");
+    private void showLose(String score) {
+        show("LOSE!!!", score);
     }
 
-    private void showWin() {
-        show("WIN!!!");
+    private void showWin(String score) {
+        show("WIN!!!", score);
     }
  
     public void startGame() {
