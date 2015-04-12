@@ -4,6 +4,9 @@
     <!-- set variable -->
     <property name="SRC" location="src"/>
     <property name="BIN" location="bin"/>
+    <path id="Client.classpath">
+        <pathelement location="bin"/>
+    </path>
 
     <!-- Target initialize -->
     <target name="init" depends="clean">
@@ -16,6 +19,12 @@
     <target name="compile" depends="init">
         <!-- Compile source -->
         <javac includeantruntime="false" srcdir="${SRC}" destdir="${BIN}"/>
+    </target>
+
+    <target name="run">
+        <java classname="game.client.Client" failonerror="true" fork="yes">
+            <classpath refid="Client.classpath"/>
+        </java>
     </target>
 
     <target name="clean">
